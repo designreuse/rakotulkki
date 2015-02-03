@@ -1,4 +1,4 @@
-package demo;
+package org.rakotulkki;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

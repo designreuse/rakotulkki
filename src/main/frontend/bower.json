@@ -1,0 +1,9 @@
+{
+  "name": "rakotulkki-frontend",
+  "version": "0.0.1",
+  "description": "Rakotulkki frontend client",
+  "dependencies": {
+    "fullcalendar": "2.1.1",
+    "moment": "2.*"
+  }
+}

@@ -12,3 +12,7 @@
 hs_err_pid*
 
 target
+node
+node_modules
+bower_components
+src/main/resources/public/
