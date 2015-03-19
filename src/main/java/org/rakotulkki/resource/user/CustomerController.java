@@ -1,6 +1,6 @@
 package org.rakotulkki.resource.user;
 
-import org.rakotulkki.model.user.Customer;
+import org.rakotulkki.model.hibernate.Customer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author jkuittin
  */
 @RestController
-public class UserController {
+public class CustomerController {
 
 	@ResponseBody
 	@RequestMapping("/customers")

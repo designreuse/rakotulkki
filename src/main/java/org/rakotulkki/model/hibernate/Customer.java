@@ -1,16 +1,17 @@
-package org.rakotulkki.model.user;
+package org.rakotulkki.model.hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author jkuittin
  */
 @Entity
+@Table(name = "customers")
 public class Customer {
 
 	@Id
+	@GeneratedValue
+	@Column(columnDefinition = "int")
 	private Long id;
 
 	@Column
