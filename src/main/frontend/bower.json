@@ -4,6 +4,7 @@
   "description": "Rakotulkki frontend client",
   "dependencies": {
     "fullcalendar": "2.1.1",
-    "moment": "2.*"
+    "moment": "2.*",
+    "angular-strap": "2.1.6"
   }
 }

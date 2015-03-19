@@ -1,6 +1,7 @@
 package org.rakotulkki.model.hibernate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * @author jkuittin
@@ -28,6 +29,9 @@ public class Customer {
 
 	@Column
 	private String zip;
+
+	@Column
+	private BigDecimal price;
 
 	protected Customer() {
 	}
@@ -78,5 +82,13 @@ public class Customer {
 
 	public void setZip(final String zip) {
 		this.zip = zip;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(final BigDecimal price) {
+		this.price = price;
 	}
 }

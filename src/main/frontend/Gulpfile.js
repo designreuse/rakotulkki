@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     browserify = require('browserify'),
     concat = require('gulp-concat'),
     less = require('gulp-less'),
+    path = require('path'),
     autoprefixer = require('gulp-autoprefixer'),
     refresh = require('gulp-livereload'),
     nodemon = require('gulp-nodemon'),
@@ -70,11 +71,11 @@ gulp.task('copy-bower-components', function () {
 
 // Styles task
 gulp.task('styles', function () {
-    gulp.src('client/styles/main.less')
-        // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+    gulp.src('./client/styles/main.less')
         .pipe(less({
-            paths: ['node_modules/bootstrap/less'],
-            //plugins: [autoprefix, cleancss],
+            // not getting this paths -thingy to work, so as a workaround all bootstrap imports have relative paths in
+            // them
+            //paths: ['./node_modules/'],
             onError: function (e) {
                 console.log(e);
             }
@@ -126,7 +127,7 @@ gulp.task('watch', ['serve', 'lint'], function () {
     ]);
 
     // Watch our sass files
-    gulp.watch(['client/styles/**/*.scss'], [
+    gulp.watch(['client/styles/**/*.less'], [
         'styles'
     ]);
 

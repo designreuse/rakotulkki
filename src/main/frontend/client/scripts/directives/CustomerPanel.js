@@ -1,19 +1,21 @@
+'use strict';
+
+exports.inject = function (app) {
+    app.directive('customerPanel', exports.directive);
+    return exports.directive;
+};
+
 /**
  * Custom directive for
  */
-cmbpAdmin.directive('customerPanel', function () {
+exports.directive = function () {
     return {
         restrict: 'E',
         templateUrl: "/views/partials/customerPanel.html",
-        require: ['ngModel'],
         replace: 'true',
-        scope: {
-            // Defined model.
-            ngModel: '='
-        },
         link: function (scope, element, attrs, ctrl) {
-
+            console.log(scope);
         }
     };
-});
+};
 

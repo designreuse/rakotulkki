@@ -5,6 +5,7 @@ CREATE TABLE customers (
   street varchar(128) NOT NULL,
   city varchar(128) NOT NULL,
   zip varchar(64) NOT NULL,
+  price decimal(7,2) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -25,7 +26,7 @@ CREATE TABLE invoices (
   invoice_number int(10) unsigned DEFAULT NULL,
   customer_id int(10) unsigned DEFAULT NULL,
   invoice_date date NOT NULL,
-  due date NOT NULL,
+  due_date date NOT NULL,
   name varchar(128) NOT NULL,
   street varchar(128) NOT NULL,
   zip varchar(128) NOT NULL,
@@ -33,21 +34,18 @@ CREATE TABLE invoices (
   reference_number varchar(32) DEFAULT NULL,
   term int(10) unsigned DEFAULT NULL,
   extra_text text,
-  status enum('NEW','OPEN','PAID','CREDITED','CLOSED','DEBT_COLLECTING','DISPUTE','CREDIT_LOSS') DEFAULT NULL,
-  substatus enum('SENT','REMINDER_SENT') DEFAULT NULL,
-  status_message varchar(512) DEFAULT NULL,
+  status enum('NEW','SENT','REMINDER_SENT','PAID','CREDITED','CLOSED','DEBT_COLLECTING') DEFAULT NULL,
   previous_invoice_id int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
   KEY customer_id (customer_id),
   KEY reference_number (reference_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE invoice_status (
+CREATE TABLE invoice_audits (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   invoice_id int(10) unsigned NOT NULL,
   created datetime(3) NOT NULL,
-  status_code enum('NEW','OPEN','PAID','CREDITED','CLOSED','DEBT_COLLECTING','DISPUTE','CREDIT_LOSS') DEFAULT NULL,
-  substatus_code enum('SENT','REMINDER_SENT') DEFAULT NULL,
+  status enum('NEW','SENT','REMINDER_SENT','PAID','CREDITED','CLOSED','DEBT_COLLECTING') DEFAULT NULL,
   status_message varchar(512) DEFAULT NULL,
   PRIMARY KEY (id),
   KEY invoice_id (invoice_id),
@@ -67,7 +65,7 @@ CREATE TABLE invoice_rows (
   created datetime(3) NOT NULL,
   PRIMARY KEY (id),
   KEY invoice_id (invoice_id),
-  KEY customer_id (customer_id),
+  KEY session_id (session_id),
   CONSTRAINT FK_INVOICE_ROWS_INVOICE
   FOREIGN KEY (invoice_id) REFERENCES invoices (id)
     ON DELETE CASCADE
@@ -80,13 +78,13 @@ CREATE TABLE invoice_rows (
 
 CREATE TABLE payments (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  archive_identity varchar(48) DEFAULT NULL,
-  date date NOT NULL,
+  archive_id varchar(32) DEFAULT NULL,
+  payment_date date NOT NULL,
   reference_number varchar(32) NOT NULL,
   amount decimal(7,2) NOT NULL,
   payer varchar(32) DEFAULT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY archive_identity (archive_identity),
+  UNIQUE KEY archive_id (archive_id),
   KEY reference_number (reference_number),
-  KEY date (date)
+  KEY payment_date (payment_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

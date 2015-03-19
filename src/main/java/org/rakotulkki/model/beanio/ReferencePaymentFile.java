@@ -20,7 +20,7 @@ public class ReferencePaymentFile {
 	/**
 	 * List of payment records
 	 */
-	@Record(name = "paymentRecords", minOccurs = 0, maxOccurs = -1, order = 2)
+	@Record(name = "paymentRecords", minOccurs = 1, maxOccurs = -1, order = 2)
 	private List<PaymentRecord> paymentRecords;
 
 	/**
