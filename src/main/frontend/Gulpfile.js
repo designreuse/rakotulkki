@@ -39,7 +39,7 @@ gulp.task('dev', ['views', 'styles', 'lint', 'jscs', 'browserify', 'watch'], fun
 // and the maven plugin uses a separate node install than the system.
 // Aaaaanyhoo, FIXME/TODO!
 //gulp.task('build', ['views', 'styles', 'lint', 'browserify-production', 'compress'], function() {
-gulp.task('build', ['views', 'styles', 'browserify', 'copy-bower-components'], function () {
+gulp.task('build', ['views', 'styles', 'fonts', 'browserify', 'copy-bower-components'], function () {
     // Clean up the temporary javascript after uglify
     return gulp.src('tmp', {read: false})
         .pipe(clean());
@@ -75,12 +75,18 @@ gulp.task('styles', function () {
         .pipe(less({
             // not getting this paths -thingy to work, so as a workaround all bootstrap imports have relative paths in
             // them
-            //paths: ['./node_modules/'],
+            paths: ['./node_modules/'],
             onError: function (e) {
                 console.log(e);
             }
         }))
         .pipe(gulp.dest('../resources/public/css/'));
+});
+
+// Copy fonts
+gulp.task('fonts', function () {
+    gulp.src('node_modules/bootstrap/fonts/*')
+        .pipe(gulp.dest('../resources/public/fonts/'));
 });
 
 // Browserify task

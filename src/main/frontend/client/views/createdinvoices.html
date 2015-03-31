@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Luodut laskut
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>Etunimi</th>
+            </tr>
+            <tr ng-repeat="invoice in invoices">
+                <td>{{invoice.customer.firstName + ' ' + invoice.customer.lastName}}</td>
+            </tr>
+            <tr>
+                <table class="table">
+                    <tr>
+                        <th>Rivi</th>
+                    </tr>
+                    <tr ng-repeat="invoiceRow in invoice.rows">
+                        <td>{{invoiceRow.title}}</td>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+    </div>
+    <div class="panel-footer">
+    </div>
+</div>

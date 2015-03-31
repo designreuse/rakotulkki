@@ -5,30 +5,35 @@ exports.inject = function (app) {
     return exports.controller;
 };
 
-exports.controller = function ($scope, $compile, uiCalendarConfig) {
+exports.controller = function ($scope, $compile, $modal, uiCalendarConfig, SessionsService, CustomerService) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
     $scope.eventSource = {};
     //url: "https://www.google.com/calendar/feeds/fi-fi.finnish%23holiday%40group.v.calendar.google.com/public/basic"
 
     /* event source that contains custom events on the scope */
-    $scope.events = [
-        {title: 'All Day Event', start: new Date(y, m, 1)},
-        {title: 'Long Event', start: new Date(y, m, d - 5), end: new Date(y, m, d - 2)},
-        {id: 999, title: 'Repeating Event', start: new Date(y, m, d - 3, 16, 0), allDay: false},
-        {id: 999, title: 'Repeating Event', start: new Date(y, m, d + 4, 16, 0), allDay: false},
-        {
-            title: 'Birthday Party',
-            start: new Date(y, m, d + 1, 19, 0),
-            end: new Date(y, m, d + 1, 22, 30),
-            allDay: false
-        },
-        {title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/'}
-    ];
+    $scope.events2 = [{
+        "id": 1,
+        "name": null,
+        "customerId": 1,
+        "customerName": "Hannu Hanhi",
+        "start": "2015-03-22T14:45:00.000",
+        "end": "2015-03-22T15:30:00.000",
+        "recurring": false,
+        "title": "Hannu Hanhi"
+    }, {
+        "id": 2,
+        "name": null,
+        "customerId": 3,
+        "customerName": "Salattu Asiakas",
+        "start": "2015-03-01T10:15:00.000",
+        "end": "2015-03-01T11:00:00.000",
+        "recurring": false,
+        "title": "Salattu Asiakas"
+    }];
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
         var s = new Date(start).getTime() / 1000;
@@ -43,35 +48,18 @@ exports.controller = function ($scope, $compile, uiCalendarConfig) {
         }];
         callback(events);
     };
-    $scope.calEventsExt = {
-        color: '#f00',
-        textColor: 'yellow',
-        events: [
-            {
-                type: 'party',
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                type: 'party',
-                title: 'Lunch 2',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                type: 'party',
-                title: 'Click for Google',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://google.com/'
-            }
-        ]
+
+    $scope.loadEvents = function (start, end, timezone, callback) {
+        SessionsService.listEvents().success(function (data) {
+            callback(data);
+            //$scope.eventSources = [data];
+            //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+        })
     };
+
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
+        console.log((date.title + ' was clicked '));
         $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
@@ -104,6 +92,39 @@ exports.controller = function ($scope, $compile, uiCalendarConfig) {
             className: ['openSesame']
         });
     };
+
+    $scope.listCustomers = function () {
+        CustomerService.list().success(function (data) {
+            $scope.customers = data;
+        })
+    };
+
+    $scope.save = function () {
+        console.log($scope.session);
+        SessionsService.save($scope.session).success(function (data) {
+            $location.path("/index");
+        });
+    };
+
+    $scope.listCustomers();
+    //$scope.loadEvents();
+
+    $scope.dayClicked = function (date, jsEvent, view) {
+
+        console.log('Clicked on: ' + date.format());
+
+        // Pre-fetch an external template populated with a custom scope
+        var myOtherModal = $modal({
+            scope: $scope,
+            content: 'Jehnaa',
+            title: 'Luo sessio',
+            template: 'views/modals/modalSession.html',
+            show: true
+        });
+        //myOtherModal.$promise.then(myOtherModal.show);
+
+    };
+
     /* remove event */
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
@@ -129,6 +150,7 @@ exports.controller = function ($scope, $compile, uiCalendarConfig) {
     /* config object */
     $scope.uiConfig = {
         calendar: {
+            lang: 'fi',
             height: 450,
             editable: true,
             header: {
@@ -136,24 +158,13 @@ exports.controller = function ($scope, $compile, uiCalendarConfig) {
                 center: '',
                 right: 'today prev,next'
             },
+            dayClick: $scope.dayClicked,
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender
         }
     };
-    $scope.changeLang = function () {
-        if ($scope.changeTo === 'Hungarian') {
-            $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-            $scope.changeTo = 'English';
-        } else {
-            $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            $scope.changeTo = 'Hungarian';
-        }
-    };
     /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
-    $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+    $scope.eventSources = [$scope.loadEvents];
 }

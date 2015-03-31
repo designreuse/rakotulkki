@@ -1,71 +1,55 @@
-package org.rakotulkki.model.hibernate;
+package org.rakotulkki.model.dto;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.rakotulkki.model.InvoiceStatus;
+import org.rakotulkki.model.jackson.DateSerializer;
 
-import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
  * @author jkuittin
  */
-@Entity
-@Table(name = "invoices")
-public class Invoice {
+public class InvoiceDTO {
 
-	@Id
-	@GeneratedValue
-	@Column(columnDefinition = "int")
 	private Long id;
 
-	@Column(name = "invoice_number")
 	private Long invoiceNumber;
 
-	@Column(name = "customer_number")
 	private String customerNumber;
 
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-	@Column(name = "invoice_date")
-	private LocalDate invoiceDate;
+	@JsonSerialize(using = DateSerializer.class)
+	private Date invoiceDate;
 
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-	@Column(name = "due_date")
-	private LocalDate dueDate;
+	@JsonSerialize(using = DateSerializer.class)
+	private Date dueDate;
 
-	@ManyToOne
-	@JoinColumn(name = "customer_id", columnDefinition = "int")
-	private Customer customer;
+	private Long customerId;
 
-	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false, name = "street")
 	private String address;
 
-	@Column(nullable = false)
 	private String zip;
 
-	@Column(nullable = false)
 	private String city;
 
-	@Column(name = "reference_number", nullable = false)
 	private String referenceNumber;
 
-	@Column(name = "extra_text")
 	private String extraText;
 
-	@Column(name = "status")
-	@Enumerated(EnumType.STRING)
 	private InvoiceStatus status;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice")
-	private List<InvoiceRow> rows;
+	private BigDecimal sumVatIncluded;
 
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Column(name = "created")
-	private DateTime created;
+	private BigDecimal sumVatExcluded;
+
+	private BigDecimal sumVat;
+
+	private List<InvoiceRowDTO> rows;
+
+	private CompanyDTO companyDTO;
 
 	public Long getId() {
 		return id;
@@ -91,28 +75,28 @@ public class Invoice {
 		this.customerNumber = customerNumber;
 	}
 
-	public LocalDate getInvoiceDate() {
+	public Date getInvoiceDate() {
 		return invoiceDate;
 	}
 
-	public void setInvoiceDate(final LocalDate invoiceDate) {
+	public void setInvoiceDate(final Date invoiceDate) {
 		this.invoiceDate = invoiceDate;
 	}
 
-	public LocalDate getDueDate() {
+	public Date getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(final LocalDate dueDate) {
+	public void setDueDate(final Date dueDate) {
 		this.dueDate = dueDate;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Long getCustomerId() {
+		return customerId;
 	}
 
-	public void setCustomer(final Customer customer) {
-		this.customer = customer;
+	public void setCustomerId(final Long customerId) {
+		this.customerId = customerId;
 	}
 
 	public String getName() {
@@ -171,19 +155,47 @@ public class Invoice {
 		this.status = status;
 	}
 
-	public List<InvoiceRow> getRows() {
+	public List<InvoiceRowDTO> getRows() {
 		return rows;
 	}
 
-	public void setRows(final List<InvoiceRow> rows) {
+	public void setRows(final List<InvoiceRowDTO> rows) {
 		this.rows = rows;
 	}
 
-	public DateTime getCreated() {
-		return created;
+	public BigDecimal getSumVatIncluded() {
+		return sumVatIncluded;
 	}
 
-	public void setCreated(final DateTime created) {
-		this.created = created;
+	public void setSumVatIncluded(final BigDecimal sumVatIncluded) {
+		this.sumVatIncluded = sumVatIncluded;
+	}
+
+	public BigDecimal getSumVatExcluded() {
+		return sumVatExcluded;
+	}
+
+	public void setSumVatExcluded(final BigDecimal sumVatExcluded) {
+		this.sumVatExcluded = sumVatExcluded;
+	}
+
+	public BigDecimal getSumVat() {
+		return sumVat;
+	}
+
+	public void setSumVat(final BigDecimal sumVat) {
+		this.sumVat = sumVat;
+	}
+
+	public CompanyDTO getCompanyDTO() {
+		return companyDTO;
+	}
+
+	public void setCompanyDTO(final CompanyDTO companyDTO) {
+		this.companyDTO = companyDTO;
+	}
+
+	public String getZipAndCity() {
+		return this.zip + " " + this.city;
 	}
 }

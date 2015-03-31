@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="912929b1-1468-471d-80c9-75e7ea9030c2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["jasper/"]]></defaultValueExpression>
+	</parameter>
+	<field name="address" class="java.lang.String">
+		<fieldDescription><![CDATA[address]]></fieldDescription>
+	</field>
+	<field name="city" class="java.lang.String">
+		<fieldDescription><![CDATA[city]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="customerId" class="java.lang.Long">
+		<fieldDescription><![CDATA[customerId]]></fieldDescription>
+	</field>
+	<field name="customerNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[customerNumber]]></fieldDescription>
+	</field>
+	<field name="dueDate" class="java.util.Date">
+		<fieldDescription><![CDATA[dueDate]]></fieldDescription>
+	</field>
+	<field name="extraText" class="java.lang.String">
+		<fieldDescription><![CDATA[extraText]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="invoiceDate" class="java.util.Date">
+		<fieldDescription><![CDATA[invoiceDate]]></fieldDescription>
+	</field>
+	<field name="invoiceNumber" class="java.lang.Long">
+		<fieldDescription><![CDATA[invoiceNumber]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[name]]></fieldDescription>
+	</field>
+	<field name="referenceNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[referenceNumber]]></fieldDescription>
+	</field>
+	<field name="rows" class="java.util.List">
+		<fieldDescription><![CDATA[rows]]></fieldDescription>
+	</field>
+	<field name="status" class="org.rakotulkki.model.InvoiceStatus">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
+	</field>
+	<field name="sumVat" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[sumVat]]></fieldDescription>
+	</field>
+	<field name="sumVatExcluded" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[sumVatExcluded]]></fieldDescription>
+	</field>
+	<field name="sumVatIncluded" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[sumVatIncluded]]></fieldDescription>
+	</field>
+	<field name="zip" class="java.lang.String">
+		<fieldDescription><![CDATA[zip]]></fieldDescription>
+	</field>
+	<field name="zipAndCity" class="java.lang.String">
+		<fieldDescription><![CDATA[zipAndCity]]></fieldDescription>
+	</field>
+	<field name="company.businessIdentityCode" class="java.lang.String">
+		<fieldDescription><![CDATA[companyDTO.businessIdentityCode]]></fieldDescription>
+	</field>
+	<field name="company.city" class="java.lang.String">
+		<fieldDescription><![CDATA[companyDTO.city]]></fieldDescription>
+	</field>
+	<field name="company.iban" class="java.lang.String">
+		<fieldDescription><![CDATA[companyDTO.iban]]></fieldDescription>
+	</field>
+	<field name="company.interestPercent" class="java.lang.Integer">
+		<fieldDescription><![CDATA[companyDTO.interestPercent]]></fieldDescription>
+	</field>
+	<field name="company.name" class="java.lang.String">
+		<fieldDescription><![CDATA[companyDTO.name]]></fieldDescription>
+	</field>
+	<field name="company.street" class="java.lang.String">
+		<fieldDescription><![CDATA[companyDTO.street]]></fieldDescription>
+	</field>
+	<field name="company.termDays" class="java.lang.Integer">
+		<fieldDescription><![CDATA[companyDTO.termDays]]></fieldDescription>
+	</field>
+	<field name="company.zip" class="java.lang.String">
+		<fieldDescription><![CDATA[companyDTO.zip]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="282" splitType="Stretch">
+			<rectangle>
+				<reportElement x="291" y="32" width="245" height="143" backcolor="#CCCCCC" uuid="3eda83dd-b439-4efc-9f98-a2b629c213ed"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="303" y="45" width="100" height="20" uuid="4e20becb-5fad-46d7-a9a2-7424a18d5372"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laskun päiväys	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="65" width="100" height="20" uuid="c788835e-e83c-42e2-ac2c-3b873e9fb6a4"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laskun numero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="85" width="100" height="20" uuid="c950aee2-3811-44e8-85ec-99c7dff4727e"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Eräpäivä]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="105" width="100" height="20" uuid="a200da05-e77f-4503-b687-20f226494bb8"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Maksuaika]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="125" width="100" height="20" uuid="8106726b-9b41-44c7-a923-64d931b440ab"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Viivästyskorko]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="145" width="100" height="20" uuid="b8ac878a-2581-479f-8ac8-b24df01d2eaa"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asiakasnumero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="12" width="100" height="20" forecolor="#000000" uuid="1848f1dd-bb3b-4062-bb4b-26fe67855c0e"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LASKU]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="29" y="125" width="237" height="20" uuid="4b148bef-408d-49bf-ac9d-08bcf21a12ae"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="145" width="237" height="20" uuid="100120e9-9d18-425f-bd2c-c8540802d2a0"/>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="426" y="45" width="100" height="20" uuid="3813b103-5b7a-45ae-ac7b-d285596fc2c5"/>
+				<textFieldExpression><![CDATA[$F{invoiceDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="65" width="100" height="20" uuid="29e17a56-bed6-4283-9562-3200f1eaec0e"/>
+				<textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="425" y="85" width="100" height="20" uuid="0a691f19-f0de-47d7-bb3d-62dd2afe2f86"/>
+				<textFieldExpression><![CDATA[$F{dueDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="145" width="100" height="20" uuid="3b8d3cbb-5083-4b73-b9b4-ded0f13f68ed"/>
+				<textFieldExpression><![CDATA[$F{customerNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="165" width="237" height="20" uuid="e8a1f01b-b0a4-4abb-86ed-63004442488d"/>
+				<textFieldExpression><![CDATA[$F{zipAndCity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="12" width="237" height="20" uuid="4f58fc90-da93-4844-9729-2cdb43ed16cc"/>
+				<textFieldExpression><![CDATA[$F{company.name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="32" width="237" height="20" uuid="32ed1f6e-3d58-438b-b69b-97a056084852"/>
+				<textFieldExpression><![CDATA[$F{company.street}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="105" width="100" height="20" uuid="8bc3aca8-6c8d-4c4e-a3a8-70cdb0a23466"/>
+				<textFieldExpression><![CDATA[$F{company.termDays} + " vrk"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="125" width="99" height="20" uuid="c3e88d4b-85cc-4234-b08a-eee545ddb5b4"/>
+				<textFieldExpression><![CDATA[$F{company.interestPercent} + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="52" width="237" height="20" uuid="aadc9ac1-2138-46a2-aed2-117e82d51705"/>
+				<textFieldExpression><![CDATA[$F{company.city}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="24" uuid="6e607c26-a01d-4ccc-a217-58995b2e17f0"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{rows})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "invoice-rows-template.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="303" y="11" width="235" height="20" uuid="7222e508-95f0-4ad5-93ed-c60c902de89c"/>
+				<text><![CDATA[Arvonlisäveroton palvelu AVL §34-36]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="79" splitType="Stretch">
+			<rectangle>
+				<reportElement x="12" y="0" width="144" height="28" uuid="ff30bffd-8855-46cd-b153-2139a6982e5c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="40" width="555" height="39" uuid="07898a20-569c-4c32-b44d-636e09d606c8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="40" uuid="1d609a73-4b3a-434d-b9ad-1082ef6b6c3b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="29" y="0" width="100" height="10" uuid="0664db9f-7620-48c7-93c8-b5070ba3db27"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Viitenumero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="0" width="75" height="10" uuid="f2b37f04-01e9-416a-b059-d33003cbda60"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Eräpäivä]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="266" y="0" width="86" height="10" uuid="d0d0c42f-7ed0-467b-9c7d-3aecd4d24018"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Veroton yhteensä EUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="0" width="51" height="10" uuid="9ef5aaa7-ad7d-4ad1-9ae5-a81576654b90"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ALV EUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="0" width="82" height="10" uuid="3071afa4-eb4d-4536-b4ba-e91326295b22"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Loppusumma EUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="40" width="100" height="10" uuid="d03029df-2ad1-4773-acaa-a851fb58bbb0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pankkiyhteys]]></text>
+			</staticText>
+			<line>
+				<reportElement x="155" y="0" width="1" height="40" uuid="94a72ccf-9804-4ee0-9f39-d51a36df7205"/>
+			</line>
+			<line>
+				<reportElement x="255" y="0" width="1" height="40" uuid="16107e86-d7f3-4b88-8a19-6cb24fc2e928"/>
+			</line>
+			<line>
+				<reportElement x="362" y="0" width="1" height="40" uuid="d1e66d7b-5a1e-4a82-8312-3df5f3fff2dd"/>
+			</line>
+			<line>
+				<reportElement x="438" y="0" width="1" height="40" uuid="00e859a5-7bb7-43e9-8b19-3b94a5580162"/>
+			</line>
+			<textField>
+				<reportElement x="29" y="15" width="126" height="20" uuid="c9fecafd-e1f0-4d74-bcd9-0db9b07cffe6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referenceNumber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="166" y="15" width="89" height="20" uuid="dbfc718c-b64f-4d62-b6a9-77987b5c9ad1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dueDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="266" y="15" width="86" height="20" uuid="58ff6a7e-90f9-49de-8450-09cd0bd0a584"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumVatExcluded}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="374" y="15" width="51" height="20" uuid="45484cf4-aeb3-47f8-8ea5-a049d22e9cc6"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumVat}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="454" y="15" width="82" height="20" uuid="c103d882-1816-4e32-868f-212c64ff5cca"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumVatIncluded}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="55" width="334" height="20" uuid="e497ce86-072c-4a66-ac1b-b483b49dd3ff"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company.iban}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="19" splitType="Stretch"/>
+	</summary>
+</jasperReport>

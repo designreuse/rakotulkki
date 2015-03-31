@@ -1,7 +1,7 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.directive('customerPanel', exports.directive);
+    app.directive('sessionsPanel', exports.directive);
     return exports.directive;
 };
 
@@ -11,7 +11,7 @@ exports.inject = function (app) {
 exports.directive = function () {
     return {
         restrict: 'E',
-        templateUrl: "/views/partials/customerPanel.html",
+        templateUrl: "/views/partials/sessionsPanel.html",
         replace: 'true',
         link: function (scope, element, attrs, ctrl) {
 

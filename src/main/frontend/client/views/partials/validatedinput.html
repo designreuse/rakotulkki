@@ -1,0 +1,14 @@
+<div class="form-group col-sm-6">
+    <label class="control-label" for="{{propertyName}}">{{label}}</label>
+
+    <div ng-class="{ 'has-error' : error }">
+        <input type="text" id="{{propertyName}}" class="form-control" name="{{propertyName}}" ng-model="ngModel"
+               required=""
+               ng-disabled="disabled"/>
+
+        <div ng-show="ctrl.$dirty || ctrl.$invalid">
+            <!-- If the model failed validation in the backend, so all related validation messages.-->
+            <span ng-show="ctrl.$error.server">{{error}}</span>
+        </div>
+    </div>
+</div>

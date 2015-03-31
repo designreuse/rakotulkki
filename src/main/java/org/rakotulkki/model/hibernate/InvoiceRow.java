@@ -1,8 +1,10 @@
 package org.rakotulkki.model.hibernate;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 /**
  * @author jkuittin
@@ -20,8 +22,8 @@ public class InvoiceRow {
 	@JoinColumn(name = "invoice_id", columnDefinition = "int")
 	private Invoice invoice;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "session_id", columnDefinition = "int")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "session_id", columnDefinition = "int", nullable = true)
 	private Session session;
 
 	@Column(name = "title")
@@ -33,8 +35,9 @@ public class InvoiceRow {
 	@Column(name = "vat")
 	private Integer vat;
 
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@Column(name = "created")
-	private Timestamp created;
+	private DateTime created;
 
 	public Long getId() {
 		return id;
@@ -84,11 +87,11 @@ public class InvoiceRow {
 		this.vat = vat;
 	}
 
-	public Timestamp getCreated() {
+	public DateTime getCreated() {
 		return created;
 	}
 
-	public void setCreated(final Timestamp created) {
+	public void setCreated(final DateTime created) {
 		this.created = created;
 	}
 }

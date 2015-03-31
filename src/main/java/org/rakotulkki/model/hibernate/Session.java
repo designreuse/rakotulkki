@@ -1,6 +1,8 @@
 package org.rakotulkki.model.hibernate;
 
-import org.joda.time.DateTime;
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,11 +19,17 @@ public class Session {
 	@Column(columnDefinition = "int")
 	private Long id;
 
-	@Column
-	private DateTime start;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	@Column(name = "session_date")
+	private LocalDate sessionDate;
 
-	@Column
-	private DateTime end;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalTime")
+	@Column(name = "start_time")
+	private LocalTime startTime;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalTime")
+	@Column(name = "end_time")
+	private LocalTime endTime;
 
 	@Column
 	private BigDecimal price;
@@ -30,28 +38,18 @@ public class Session {
 	@JoinColumn(name = "customer_id", columnDefinition = "int")
 	private Customer customer;
 
+	@OneToOne(mappedBy = "session")
+	private InvoiceRow invoiceRow;
+
+	@Column(name = "name")
+	private String name;
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(final Long id) {
 		this.id = id;
-	}
-
-	public DateTime getStart() {
-		return start;
-	}
-
-	public void setStart(final DateTime start) {
-		this.start = start;
-	}
-
-	public DateTime getEnd() {
-		return end;
-	}
-
-	public void setEnd(final DateTime end) {
-		this.end = end;
 	}
 
 	public BigDecimal getPrice() {
@@ -68,5 +66,45 @@ public class Session {
 
 	public void setCustomer(final Customer customer) {
 		this.customer = customer;
+	}
+
+	public LocalDate getSessionDate() {
+		return sessionDate;
+	}
+
+	public void setSessionDate(final LocalDate sessionDate) {
+		this.sessionDate = sessionDate;
+	}
+
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(final LocalTime startTime) {
+		this.startTime = startTime;
+	}
+
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(final LocalTime endTime) {
+		this.endTime = endTime;
+	}
+
+	public InvoiceRow getInvoiceRow() {
+		return invoiceRow;
+	}
+
+	public void setInvoiceRow(final InvoiceRow invoiceRow) {
+		this.invoiceRow = invoiceRow;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
 	}
 }

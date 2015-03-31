@@ -1,36 +1,26 @@
-package org.rakotulkki.model.hibernate;
+package org.rakotulkki.model.dto;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
  * @author jkuittin
  */
-@Entity
-@Table(name = "customers")
-public class Customer {
+public class CustomerDTO {
 
-	@Id
-	@GeneratedValue
-	@Column(columnDefinition = "int")
 	private Long id;
 
-	@Column
 	private String firstName;
 
-	@Column
 	private String lastName;
 
-	@Column
 	private String street;
 
-	@Column
 	private String city;
 
-	@Column
 	private String zip;
 
-	@Column
+	private Integer uninvoicedSessions;
+
 	private BigDecimal price;
 
 	public Long getId() {
@@ -87,5 +77,13 @@ public class Customer {
 
 	public void setPrice(final BigDecimal price) {
 		this.price = price;
+	}
+
+	public Integer getUninvoicedSessions() {
+		return uninvoicedSessions;
+	}
+
+	public void setUninvoicedSessions(final Integer uninvoicedSessions) {
+		this.uninvoicedSessions = uninvoicedSessions;
 	}
 }

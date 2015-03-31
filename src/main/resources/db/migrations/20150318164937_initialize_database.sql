@@ -1,3 +1,16 @@
+CREATE TABLE companies (
+  id int(10) unsigned NOT NULL auto_increment,
+  name varchar(128) NOT NULL,
+  street varchar(128) NOT NULL,
+  zip varchar(64) NOT NULL,
+  city varchar(128) NOT NULL,
+  iban varchar(32) NOT NULL,
+  business_identity_code varchar(32) NOT NULL,
+  interest_percent int(3) NOT NULL DEFAULT 11,
+  term_days int(3) NOT NULL DEFAULT 14,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE customers (
   id int(10) unsigned NOT NULL auto_increment,
   first_name varchar(128) NOT NULL,
@@ -12,9 +25,11 @@ CREATE TABLE customers (
 CREATE TABLE sessions (
   id int(10) unsigned NOT NULL auto_increment,
   customer_id int(10) unsigned NOT NULL,
-  start_time datetime NOT NULL,
-  end_time datetime NOT NULL,
+  session_date datetime NOT NULL,
+  start_time time NOT NULL,
+  end_time time NOT NULL,
   price decimal(7,2) NOT NULL,
+  name varchar(128),
   PRIMARY KEY (id),
   CONSTRAINT FK_CUSTOMERS FOREIGN KEY (customer_id) REFERENCES customers (id)
     ON DELETE CASCADE
@@ -25,6 +40,7 @@ CREATE TABLE invoices (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   invoice_number int(10) unsigned DEFAULT NULL,
   customer_id int(10) unsigned DEFAULT NULL,
+  customer_number varchar(32) DEFAULT NULL,
   invoice_date date NOT NULL,
   due_date date NOT NULL,
   name varchar(128) NOT NULL,
@@ -36,6 +52,7 @@ CREATE TABLE invoices (
   extra_text text,
   status enum('NEW','SENT','REMINDER_SENT','PAID','CREDITED','CLOSED','DEBT_COLLECTING') DEFAULT NULL,
   previous_invoice_id int(10) unsigned DEFAULT NULL,
+  created datetime(3) NOT NULL,
   PRIMARY KEY (id),
   KEY customer_id (customer_id),
   KEY reference_number (reference_number)
@@ -65,7 +82,7 @@ CREATE TABLE invoice_rows (
   created datetime(3) NOT NULL,
   PRIMARY KEY (id),
   KEY invoice_id (invoice_id),
-  KEY session_id (session_id),
+  UNIQUE KEY session_id (session_id),
   CONSTRAINT FK_INVOICE_ROWS_INVOICE
   FOREIGN KEY (invoice_id) REFERENCES invoices (id)
     ON DELETE CASCADE

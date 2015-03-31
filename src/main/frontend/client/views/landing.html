@@ -3,48 +3,47 @@
         <div class="page-header">
             <h1>
                 Rakotulkki
-                <small>Ohjelmisto osaaville kavereille</small>
+                <small>Ohjelmisto v-mäisille kavereille</small>
             </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Pikatoiminnot
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="button-group-lg">
+                    <a ui-sref="customer"
+                       class="btn btn-primary">Uusi asiakas</a>
+                    <a ui-sref="session"
+                       class="btn btn-primary">Uusi sessio</a>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+            </div>
         </div>
     </div>
 </div>
 <div class="row clearfix">
     <div class="col-md-6 column">
-        <customer-panel></customer-panel>
+        <sessions-panel></sessions-panel>
     </div>
     <div class="col-md-6 column">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    Viimeisimmät laskut
-                </h3>
-            </div>
-            <div class="panel-body">
-                Lista
-            </div>
-            <div class="panel-footer">
-                <a href="#/invoices">Näytä kaikki</a>
-            </div>
-        </div>
+        <invoices-panel label="Viimeiset laskut" invoices="invoices"></invoices-panel>
     </div>
 </div>
 <div class="row clearfix">
     <div class="col-md-12 column">
         <div class="row clearfix">
             <div class="col-md-6 column">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Seuravat sessiot
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        Lista
-                    </div>
-                    <div class="panel-footer">
-                        <a href="#/sesssions">Näytä kaikki</a>
-                    </div>
-                </div>
+                <customer-panel></customer-panel>
             </div>
             <div class="col-md-6 column">
                 <div class="panel panel-default">

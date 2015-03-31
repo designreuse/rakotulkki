@@ -1,0 +1,72 @@
+<form name="sessionForm" ng-submit="save()" class="form-horizontal" novalidate="" role="form">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Lisää sessio</h3>
+        </div>
+        <div class="panel-body">
+            <fieldset>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label class="control-label" for="customer">Asiakas</label>
+
+                        <div>
+                            <input class="form-control" id="customer" ng-model="session.customerId"
+                                   ng-options="customer.id as customer.id for customer in customers"
+                                   placeholder="Valitse asiakas" bs-typeahead type="text">
+                        </div>
+                    </div>
+                </div>
+                <!--ng-options="customer.id as customer.firstName + ' ' + customer.lastName for customer in customers"-->
+
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label class="control-label" for="startDate">Alkaen pvm</label>
+                        <input class="form-control" id="startDate" ng-model="session.sessionDate"
+                               placeholder="Alkaen" data-time-type="text"
+                               data-date-format="dd.MM.yyyy"
+                               bs-datepicker type="text">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label class="control-label" for="untilDate">Päättyen pvm</label>
+                        <input class="form-control" id="untilDate" ng-model="untilDate"
+                               data-min-date="{{sessionDate}}"
+                               placeholder="Päättyen" data-time-type="text"
+                               data-date-format="dd.MM.yyyy"
+                               bs-datepicker type="text">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-6"
+                         ng-class="{'has-error': sessionForm.startTime.$invalid }">
+                        <label class="control-label" for="startTime">Alkamisaika</label>
+                        <input class="form-control" id="startTime" ng-model="session.startTime"
+                               data-time-format="HH:mm"
+                               data-time-type="date" data-autoclose="1" name="startime"
+                               bs-timepicker type="text">
+                    </div>
+                    <div class="form-group col-sm-6"
+                         ng-class="{'has-error': sessionForm.endTime.$invalid }">
+                        <label class="control-label" for="endTime">Päättymisaika</label>
+                        <input class="form-control" id="endTime" ng-model="session.endTime" data-time-format="HH:mm"
+                               data-time-type="date" data-autoclose="1" name="endTime"
+                               bs-timepicker type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <validated-input label="Hinta" property-name="price" ng-model="session.price"
+                                     error="errors.price"></validated-input>
+
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="panel-footer">
+            <div class="form-group">
+                <div class="col-xs-5 col-xs-offset-3">
+                    <button type="submit" class="btn btn-primary">Tallenna</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

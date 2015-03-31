@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anna-lasku_rows" language="java" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="50afa9e8-1fd3-4f78-ae8c-cab4771f48ba">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="price" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[price]]></fieldDescription>
+	</field>
+	<field name="title" class="java.lang.String">
+		<fieldDescription><![CDATA[title]]></fieldDescription>
+	</field>
+	<field name="vat" class="java.lang.Integer">
+		<fieldDescription><![CDATA[vat]]></fieldDescription>
+	</field>
+	<field name="date" class="java.util.Date">
+		<fieldDescription><![CDATA[date]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="39">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="26" backcolor="#000000" uuid="9e093b34-ea1b-4369-b484-6b94605e3005"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="296" y="6" width="60" height="20" forecolor="#FFFFFF" uuid="0b98fa74-158b-4523-a56b-b3ef44ff0af8"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Päivämäärä]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="6" width="40" height="20" forecolor="#FFFFFF" uuid="7c270ae4-1bda-40d3-b437-a7c7f73a7441"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALV%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="6" width="273" height="20" forecolor="#FFFFFF" uuid="6d67671c-12c8-4a37-858c-4a4e0d4adb30"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tuote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="477" y="6" width="59" height="20" forecolor="#FFFFFF" uuid="ea280a62-c4b6-48fa-8b43-bd063c1ee710"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Verollinen hinta EUR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="477" y="0" width="59" height="20" uuid="01bc5a1a-6a14-46e6-8f91-f3cb6b564d08"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="0" width="273" height="20" uuid="f87706ee-0e97-4132-8a57-0d9a49e14100"/>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="296" y="0" width="74" height="20" uuid="37fe3c96-f915-49da-bc3c-9c061eb2a63a"/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="0" width="39" height="20" uuid="8cdb3756-9973-4d01-ba63-07e65a90523c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

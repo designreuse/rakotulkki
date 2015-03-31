@@ -1,0 +1,188 @@
+package org.rakotulkki.resource.user;
+
+import ma.glasnost.orika.MapperFacade;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.rakotulkki.model.InvoiceStatus;
+import org.rakotulkki.model.dto.CompanyDTO;
+import org.rakotulkki.model.dto.InvoiceDTO;
+import org.rakotulkki.model.hibernate.*;
+import org.rakotulkki.model.jasper.ReportService;
+import org.rakotulkki.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author jkuittin
+ */
+@RestController
+@RequestMapping("/invoices")
+public class InvoiceController {
+
+	private final SessionRepository sessionRepository;
+	private final CustomerRepository customerRepository;
+	private final InvoiceRepository invoiceRepository;
+	private final InvoiceRowRepository invoiceRowRepository;
+	private final InvoiceAuditRepository invoiceAuditRepository;
+	private final CompanyRepository companyRepository;
+
+	private final MapperFacade mapper;
+
+	@Autowired
+	public InvoiceController(final SessionRepository sessionRepository, final CustomerRepository customerRepository,
+		final InvoiceRepository invoiceRepository, final InvoiceRowRepository invoiceRowRepository,
+		final InvoiceAuditRepository invoiceAuditRepository, final CompanyRepository companyRepository,
+		final MapperFacade mapper) {
+		this.sessionRepository = sessionRepository;
+		this.customerRepository = customerRepository;
+		this.invoiceRepository = invoiceRepository;
+		this.invoiceRowRepository = invoiceRowRepository;
+		this.invoiceAuditRepository = invoiceAuditRepository;
+		this.companyRepository = companyRepository;
+		this.mapper = mapper;
+	}
+
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET)
+	public List<InvoiceDTO> invoices() {
+		return mapper.mapAsList(invoiceRepository.findAll(), InvoiceDTO.class);
+	}
+
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET, value = "generateAll")
+	public List<InvoiceDTO> generateInvoices() {
+		Map<Customer, List<Session>> grouped = groupSessions(
+			sessionRepository.findByInvoiceRowIsNullAndSessionDateBefore(LocalDate.now().plusDays(1)));
+
+		for (Customer customer : grouped.keySet()) {
+			// Create invoice
+			Invoice invoice = createInvoice(customer);
+
+			for (Session session : grouped.get(customer)) {
+				// Add session as a row to invoice
+				addRow(invoice, session);
+			}
+
+			addAudit(invoice, invoice.getStatus());
+		}
+
+		return mapper.mapAsList(invoiceRepository.findAll(), InvoiceDTO.class);
+	}
+
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET, value = "/customer/{id}/generate")
+	public List<InvoiceDTO> generateInvoices(@PathVariable Long id) {
+		Customer customer = customerRepository.findOne(id);
+
+		List<Session> sessions = sessionRepository
+			.findByInvoiceRowIsNullAndSessionDateBeforeAndCustomer(LocalDate.now().plusDays(1), customer);
+
+		Invoice invoice = createInvoice(customer);
+
+		for (Session session : sessions) {
+			// Add session as a row to invoice
+			addRow(invoice, session);
+		}
+
+		addAudit(invoice, invoice.getStatus());
+
+		return mapper.mapAsList(invoiceRepository.findAll(), InvoiceDTO.class);
+	}
+
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET, value = "/customer/{id}/pending")
+	public Integer calculatePending(@PathVariable Long id) {
+		Customer customer = customerRepository.findOne(id);
+
+		List<Session> sessions = sessionRepository
+			.findByInvoiceRowIsNullAndSessionDateBeforeAndCustomer(LocalDate.now().plusDays(1), customer);
+		return sessions.size();
+	}
+
+	@RequestMapping(value = "/{id}/pdf", method = RequestMethod.GET)
+	public void generatePdf(@PathVariable("id") Long id, HttpServletResponse response) {
+		try {
+			ReportService service = new ReportService();
+
+			// Load invoice
+			Invoice i = invoiceRepository.findOne(id);
+			InvoiceDTO dto = mapper.map(i, InvoiceDTO.class);
+			dto.setCompanyDTO(mapper.map(loadCompany(), CompanyDTO.class));
+
+			// Print it to response's OutputStream
+			service.printInvoice(dto, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			throw new RuntimeException("IOError writing file to output stream", ex);
+		}
+
+	}
+
+	private Company loadCompany() {
+		for (Company c : companyRepository.findAll()) {
+			return c;
+		}
+		return null;
+	}
+
+	private void addAudit(final Invoice invoice, InvoiceStatus status) {
+		InvoiceAudit audit = new InvoiceAudit();
+		audit.setStatus(status);
+		audit.setCreated(DateTime.now());
+		audit.setInvoice(invoice);
+
+		invoiceAuditRepository.save(audit);
+	}
+
+	private void addRow(final Invoice invoice, final Session session) {
+		InvoiceRow row = new InvoiceRow();
+		row.setInvoice(invoice);
+		row.setSession(session);
+		row.setPrice(session.getPrice());
+		row.setTitle("Terapiakäynti");
+		row.setVat(0);
+		row.setCreated(DateTime.now());
+		invoiceRowRepository.save(row);
+	}
+
+	private Invoice createInvoice(final Customer customer) {
+		Invoice invoice = new Invoice();
+		invoice.setCustomer(customer);
+		invoice.setName(customer.getFirstName() + " " + customer.getLastName());
+		invoice.setAddress(customer.getStreet());
+		invoice.setZip(customer.getZip());
+		invoice.setCity(customer.getCity());
+		invoice.setInvoiceDate(LocalDate.now());
+		invoice.setDueDate(LocalDate.now().plusDays(14));
+		invoice.setCustomerNumber(String.format("%s", 1000 + customer.getId()));
+		invoice.setReferenceNumber("temp");
+		invoice.setInvoiceNumber(1L);
+		invoice.setStatus(InvoiceStatus.NEW);
+		invoice.setCreated(DateTime.now());
+		invoiceRepository.save(invoice);
+
+		invoice.setInvoiceNumber(1000L + invoice.getId());
+		return invoice;
+	}
+
+	private Map<Customer, List<Session>> groupSessions(Iterable<Session> sessions) {
+		Map<Customer, List<Session>> grouped = new HashMap<Customer, List<Session>>();
+
+		for (Session session : sessions) {
+			if (!grouped.containsKey(session.getCustomer())) {
+				grouped.put(session.getCustomer(), new ArrayList<Session>());
+			}
+			grouped.get(session.getCustomer()).add(session);
+		}
+
+		return grouped;
+	}
+
+}

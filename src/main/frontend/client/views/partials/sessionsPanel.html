@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Seuraavat sessiot
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>Päiväys</th>
+                <th>Nimi</th>
+                <th>Alkaa</th>
+                <th>Loppuu</th>
+                <th>Hinta</th>
+                <th>Toiminnot</th>
+            </tr>
+            <tr ng-repeat="session in sessions">
+                <td>{{session.sessionDate | date : 'dd.MM.yyyy'}}</td>
+                <td>{{session.customer.firstName}} {{session.customer.lastName}}</td>
+                <td>{{session.startTime | date : 'HH:mm'}}</td>
+                <td>{{session.endTime | date : 'HH:mm'}}</td>
+                <td>{{session.price}}</td>
+                <td><a href="#/index" class="btn btn-primary btn-sm">Peruuta</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <a href="#/sessions">Näytä kaikki</a>
+    </div>
+</div>

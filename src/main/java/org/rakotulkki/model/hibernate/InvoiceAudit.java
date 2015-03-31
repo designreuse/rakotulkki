@@ -25,7 +25,7 @@ public class InvoiceAudit {
 	@Column(nullable = false)
 	private DateTime created;
 
-	@Column(name = "status_code")
+	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private InvoiceStatus status;
 

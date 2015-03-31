@@ -1,11 +1,13 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.controller('HomeController', exports.controller);
+    app.controller('SessionsController', exports.controller);
     return exports.controller;
 };
 
-exports.controller = function ($scope, CustomerService, SessionsService, InvoiceService) {
+exports.controller = function ($scope, $location, CustomerService, SessionsService) {
+
+    $scope.session = {};
 
     $scope.listCustomers = function () {
         CustomerService.list().success(function (data) {
@@ -19,14 +21,12 @@ exports.controller = function ($scope, CustomerService, SessionsService, Invoice
         })
     };
 
-    $scope.listInvoices = function () {
-        InvoiceService.list().success(function (data) {
-            $scope.invoices = data;
-        })
-    };
-
     $scope.listCustomers();
-    $scope.listSessions();
-    $scope.listInvoices();
 
+    $scope.save = function () {
+        console.log($scope.session);
+        SessionsService.save($scope.session).success(function (data) {
+            $location.path("/index");
+        });
+    };
 };

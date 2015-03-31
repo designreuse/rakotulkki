@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{label}}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>Tila</th>
+                <th>Asiakas</th>
+                <th>Summa</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="invoice in invoices">
+                <td>{{invoice.status}}</td>
+                <td>{{invoice.name}}</td>
+                <td>{{invoice.sumVatIncluded}}</td>
+                <td><a href="/invoices/{{invoice.id}}/pdf" target="_blank"
+                       class="btn btn-primary btn-sm">Tulosta</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <a href="#/invoices">Näytä kaikki</a>
+    </div>
+</div>
