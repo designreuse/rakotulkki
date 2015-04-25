@@ -6,8 +6,8 @@ import javax.persistence.*;
  * @author jkuittin
  */
 @Entity
-@Table(name = "companies")
-public class Company {
+@Table(name = "therapists")
+public class Therapist {
 
 	@Id
 	@GeneratedValue
@@ -16,6 +16,15 @@ public class Company {
 
 	@Column
 	private String name;
+
+	@Column
+	private String email;
+
+	@Column
+	private String password;
+
+	@Column
+	private String phone;
 
 	@Column
 	private String street;
@@ -112,5 +121,29 @@ public class Company {
 
 	public String getZipAndCity() {
 		return this.zip + " " + this.city;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(final String phone) {
+		this.phone = phone;
 	}
 }

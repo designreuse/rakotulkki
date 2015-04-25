@@ -1,4 +1,4 @@
-package org.rakotulkki.model.jasper;
+package org.rakotulkki.services.jasper;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;

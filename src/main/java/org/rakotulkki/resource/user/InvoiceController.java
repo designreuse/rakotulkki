@@ -1,5 +1,9 @@
 package org.rakotulkki.resource.user;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import ma.glasnost.orika.MapperFacade;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -7,17 +11,16 @@ import org.rakotulkki.model.InvoiceStatus;
 import org.rakotulkki.model.dto.CompanyDTO;
 import org.rakotulkki.model.dto.InvoiceDTO;
 import org.rakotulkki.model.hibernate.*;
-import org.rakotulkki.model.jasper.ReportService;
 import org.rakotulkki.repository.*;
+import org.rakotulkki.services.jasper.ReportService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author jkuittin
@@ -25,6 +28,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/invoices")
 public class InvoiceController {
+
+	private final Logger log = LoggerFactory.getLogger(InvoiceController.class);
 
 	private final SessionRepository sessionRepository;
 	private final CustomerRepository customerRepository;
@@ -106,6 +111,33 @@ public class InvoiceController {
 		return sessions.size();
 	}
 
+	@RequestMapping(value = "/formPrinter", method = RequestMethod.GET)
+	public void printFomr(HttpServletResponse response) throws IOException, DocumentException {
+
+		// Create a reader to extract info
+		PdfReader reader = new PdfReader("/Users/jkuittin/Downloads/KU205_W.pdf");
+		PdfReader.unethicalreading = true;
+
+		PdfStamper stamper = new PdfStamper(reader, response.getOutputStream());
+		//PdfStamper stamper = new PdfStamper(reader, os);
+		AcroFields form = stamper.getAcroFields();
+		form.setGenerateAppearances(true);
+		// Loop over the fields and get info about them
+		Set<String> fields = form.getFields().keySet();
+		form.renameField("pic_pankkitunniste", "tx93");
+
+		for (String key : fields) {
+			if (form.getFieldType(key) == AcroFields.FIELD_TYPE_TEXT) {
+				form.setField(key, key);
+			}
+		}
+
+		stamper.close();
+		//reader.close();
+		response.flushBuffer();
+		//os.flush();
+	}
+
 	@RequestMapping(value = "/{id}/pdf", method = RequestMethod.GET)
 	public void generatePdf(@PathVariable("id") Long id, HttpServletResponse response) {
 		try {
@@ -125,8 +157,8 @@ public class InvoiceController {
 
 	}
 
-	private Company loadCompany() {
-		for (Company c : companyRepository.findAll()) {
+	private Therapist loadCompany() {
+		for (Therapist c : companyRepository.findAll()) {
 			return c;
 		}
 		return null;

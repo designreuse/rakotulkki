@@ -93,6 +93,18 @@
             <version>6.0.3</version>
         </dependency>
 
+        <!-- Bouncycastle dependencies necessary as they are optional = true
+    in itextpdf ... but they're not-so-optional in reality -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.49</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.49</version>
+        </dependency>
     </dependencies>
 
     <build>

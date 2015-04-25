@@ -31,6 +31,18 @@ public class Payment {
 	@Column(name = "payer")
 	private String payerName;
 
+	@ManyToOne
+	@JoinColumn(name = "company_id", columnDefinition = "int")
+	private Therapist therapist;
+
+	public Therapist getTherapist() {
+		return therapist;
+	}
+
+	public void setTherapist(final Therapist therapist) {
+		this.therapist = therapist;
+	}
+
 	public Long getId() {
 		return id;
 	}
