@@ -12,6 +12,7 @@ import org.rakotulkki.model.dto.CompanyDTO;
 import org.rakotulkki.model.dto.InvoiceDTO;
 import org.rakotulkki.model.hibernate.*;
 import org.rakotulkki.repository.*;
+import org.rakotulkki.services.TherapistService;
 import org.rakotulkki.services.jasper.ReportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,21 +37,23 @@ public class InvoiceController {
 	private final InvoiceRepository invoiceRepository;
 	private final InvoiceRowRepository invoiceRowRepository;
 	private final InvoiceAuditRepository invoiceAuditRepository;
-	private final CompanyRepository companyRepository;
+	private final TherapistRepository therapistRepository;
+	private final TherapistService therapistService;
 
 	private final MapperFacade mapper;
 
 	@Autowired
 	public InvoiceController(final SessionRepository sessionRepository, final CustomerRepository customerRepository,
 		final InvoiceRepository invoiceRepository, final InvoiceRowRepository invoiceRowRepository,
-		final InvoiceAuditRepository invoiceAuditRepository, final CompanyRepository companyRepository,
-		final MapperFacade mapper) {
+		final InvoiceAuditRepository invoiceAuditRepository, final TherapistRepository therapistRepository,
+		final TherapistService therapistService, final MapperFacade mapper) {
 		this.sessionRepository = sessionRepository;
 		this.customerRepository = customerRepository;
 		this.invoiceRepository = invoiceRepository;
 		this.invoiceRowRepository = invoiceRowRepository;
 		this.invoiceAuditRepository = invoiceAuditRepository;
-		this.companyRepository = companyRepository;
+		this.therapistRepository = therapistRepository;
+		this.therapistService = therapistService;
 		this.mapper = mapper;
 	}
 
@@ -63,12 +66,14 @@ public class InvoiceController {
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET, value = "generateAll")
 	public List<InvoiceDTO> generateInvoices() {
-		Map<Customer, List<Session>> grouped = groupSessions(
-			sessionRepository.findByInvoiceRowIsNullAndSessionDateBefore(LocalDate.now().plusDays(1)));
+		Therapist therapist = therapistService.getCurrentUser();
+
+		Map<Customer, List<Session>> grouped = groupSessions(sessionRepository
+			.findByTherapistAndInvoiceRowIsNullAndSessionDateBefore(therapist, LocalDate.now().plusDays(1)));
 
 		for (Customer customer : grouped.keySet()) {
 			// Create invoice
-			Invoice invoice = createInvoice(customer);
+			Invoice invoice = createInvoice(customer, therapist);
 
 			for (Session session : grouped.get(customer)) {
 				// Add session as a row to invoice
@@ -84,12 +89,15 @@ public class InvoiceController {
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET, value = "/customer/{id}/generate")
 	public List<InvoiceDTO> generateInvoices(@PathVariable Long id) {
+		Therapist therapist = therapistService.getCurrentUser();
+
 		Customer customer = customerRepository.findOne(id);
 
 		List<Session> sessions = sessionRepository
-			.findByInvoiceRowIsNullAndSessionDateBeforeAndCustomer(LocalDate.now().plusDays(1), customer);
+			.findByTherapistAndInvoiceRowIsNullAndSessionDateBeforeAndCustomer(therapist, LocalDate.now().plusDays(1),
+				customer);
 
-		Invoice invoice = createInvoice(customer);
+		Invoice invoice = createInvoice(customer, therapist);
 
 		for (Session session : sessions) {
 			// Add session as a row to invoice
@@ -104,10 +112,13 @@ public class InvoiceController {
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET, value = "/customer/{id}/pending")
 	public Integer calculatePending(@PathVariable Long id) {
+		Therapist therapist = therapistService.getCurrentUser();
+
 		Customer customer = customerRepository.findOne(id);
 
 		List<Session> sessions = sessionRepository
-			.findByInvoiceRowIsNullAndSessionDateBeforeAndCustomer(LocalDate.now().plusDays(1), customer);
+			.findByTherapistAndInvoiceRowIsNullAndSessionDateBeforeAndCustomer(therapist, LocalDate.now().plusDays(1),
+				customer);
 		return sessions.size();
 	}
 
@@ -158,7 +169,7 @@ public class InvoiceController {
 	}
 
 	private Therapist loadCompany() {
-		for (Therapist c : companyRepository.findAll()) {
+		for (Therapist c : therapistRepository.findAll()) {
 			return c;
 		}
 		return null;
@@ -184,7 +195,7 @@ public class InvoiceController {
 		invoiceRowRepository.save(row);
 	}
 
-	private Invoice createInvoice(final Customer customer) {
+	private Invoice createInvoice(final Customer customer, final Therapist therapist) {
 		Invoice invoice = new Invoice();
 		invoice.setCustomer(customer);
 		invoice.setName(customer.getFirstName() + " " + customer.getLastName());
@@ -198,6 +209,7 @@ public class InvoiceController {
 		invoice.setInvoiceNumber(1L);
 		invoice.setStatus(InvoiceStatus.NEW);
 		invoice.setCreated(DateTime.now());
+		invoice.setTherapist(therapist);
 		invoiceRepository.save(invoice);
 
 		invoice.setInvoiceNumber(1000L + invoice.getId());

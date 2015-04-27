@@ -9,7 +9,11 @@
     </div>
 </div>
 
-<div class="row clearfix">
+<div class="row clearfix" ng-show="!authenticated">
+    Sinun täytyy <a ui-sref="login">kirjautua sisään</a> ennen kuin voit käyttää ohjelmistoa.
+</div>
+
+<div class="row clearfix" ng-show="authenticated">
     <div class="col-md-12 column">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -31,7 +35,7 @@
         </div>
     </div>
 </div>
-<div class="row clearfix">
+<div class="row clearfix" ng-show="authenticated">
     <div class="col-md-6 column">
         <sessions-panel></sessions-panel>
     </div>
@@ -39,7 +43,7 @@
         <invoices-panel label="Viimeiset laskut" invoices="invoices"></invoices-panel>
     </div>
 </div>
-<div class="row clearfix">
+<div class="row clearfix" ng-show="authenticated">
     <div class="col-md-12 column">
         <div class="row clearfix">
             <div class="col-md-6 column">

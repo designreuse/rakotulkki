@@ -68,7 +68,7 @@ public class Invoice {
 	private DateTime created;
 
 	@ManyToOne
-	@JoinColumn(name = "company_id", columnDefinition = "int")
+	@JoinColumn(name = "therapist_id", columnDefinition = "int")
 	private Therapist therapist;
 
 	public Therapist getTherapist() {

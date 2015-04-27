@@ -142,6 +142,13 @@ public class OrikaMapperFactoryBuilder {
 		);
 
 		factory.registerClassMap(
+			factory.classMap(Therapist.class, TherapistDTO.class)
+				.byDefault()
+				.mapNulls(true)
+				.toClassMap()
+		);
+
+		factory.registerClassMap(
 			factory.classMap(Invoice.class, InvoiceDTO.class)
 				.fieldMap("customer.id", "customerId").aToB().add()
 				.byDefault()

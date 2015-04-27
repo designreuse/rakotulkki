@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * @author jkuittin
  */
-public interface CompanyRepository extends CrudRepository<Therapist, Long> {
+public interface TherapistRepository extends CrudRepository<Therapist, Long> {
+
+	public Therapist findByEmail(final String email);
 
 }

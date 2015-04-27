@@ -5,9 +5,11 @@ import org.joda.time.LocalDate;
 import org.rakotulkki.model.dto.CustomerDTO;
 import org.rakotulkki.model.hibernate.Customer;
 import org.rakotulkki.model.hibernate.Session;
+import org.rakotulkki.model.hibernate.Therapist;
 import org.rakotulkki.repository.CustomerRepository;
 import org.rakotulkki.repository.InvoiceRepository;
 import org.rakotulkki.repository.SessionRepository;
+import org.rakotulkki.services.TherapistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +31,24 @@ public class CustomerController {
 
 	private final MapperFacade mapperFacade;
 
+	private final TherapistService therapistService;
+
 	@Autowired
 	public CustomerController(final CustomerRepository customerRepository, final InvoiceRepository invoiceRepository,
-		final SessionRepository sessionRepository, final MapperFacade mapperFacade) {
+		final SessionRepository sessionRepository, final MapperFacade mapperFacade,
+		final TherapistService therapistService) {
 		this.customerRepository = customerRepository;
 		this.invoiceRepository = invoiceRepository;
 		this.sessionRepository = sessionRepository;
 		this.mapperFacade = mapperFacade;
+		this.therapistService = therapistService;
 	}
 
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET)
 	public List<CustomerDTO> customers() {
+		Therapist therapist = therapistService.getCurrentUser();
+
 		final List<CustomerDTO> customerDTOs = new ArrayList<CustomerDTO>();
 
 		final Iterable<Customer> customers = customerRepository.findAll();
@@ -56,14 +64,19 @@ public class CustomerController {
 	private CustomerDTO map(final Customer c) {
 		CustomerDTO dto = mapperFacade.map(c, CustomerDTO.class);
 		List<Session> sessions = sessionRepository
-			.findByInvoiceRowIsNullAndSessionDateBeforeAndCustomer(LocalDate.now().plusDays(1), c);
+			.findByTherapistAndInvoiceRowIsNullAndSessionDateBeforeAndCustomer(c.getTherapist(),
+				LocalDate.now().plusDays(1), c);
 		dto.setUninvoicedSessions(sessions.size());
 		return dto;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public CustomerDTO create(@RequestBody Customer customerDTO) {
+		Therapist therapist = therapistService.getCurrentUser();
+
 		Customer customer = mapperFacade.map(customerDTO, Customer.class);
+
+		customer.setTherapist(therapist);
 		return map(customerRepository.save(customer));
 	}
 

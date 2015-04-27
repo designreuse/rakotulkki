@@ -45,7 +45,7 @@ public class Session {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name = "company_id", columnDefinition = "int")
+	@JoinColumn(name = "therapist_id", columnDefinition = "int")
 	private Therapist therapist;
 
 	public Therapist getTherapist() {

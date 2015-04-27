@@ -115,6 +115,11 @@ gulp.task('views', function () {
         // And put it in the public folder
         .pipe(gulp.dest('../resources/public/'));
 
+    // Get our index.html
+    gulp.src('client/login.html')
+        // And put it in the public folder
+        .pipe(gulp.dest('../resources/public/'));
+
     // Any other view files from client/views
     gulp.src('client/views/**/*')
         // Will be put in the public/views folder

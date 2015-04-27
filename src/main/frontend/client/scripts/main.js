@@ -24,10 +24,16 @@ require('./directives/ValidatedInput').inject(app);
 require('./services/CustomerService').inject(app);
 require('./services/SessionsService').inject(app);
 require('./services/InvoiceService').inject(app);
+require('./services/UserService').inject(app);
 
-app.config(function ($locationProvider, $stateProvider) {
+app.config(function ($locationProvider, $stateProvider, $httpProvider) {
 
     $stateProvider
+        .state('login', {
+            url: '/login',
+            templateUrl: 'login.html',
+            controller: require('./controllers/LoginController').inject(app)
+        })
         .state('index', {
             url: '/index',
             templateUrl: 'views/landing.html',
@@ -53,6 +59,8 @@ app.config(function ($locationProvider, $stateProvider) {
             templateUrl: 'views/calendar.html',
             controller: require('./controllers/CalendarCtrl').inject(app)
         });
+
+    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 });
 
 app.run();
