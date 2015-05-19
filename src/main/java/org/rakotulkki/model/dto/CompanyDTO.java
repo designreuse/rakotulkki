@@ -1,8 +1,14 @@
 package org.rakotulkki.model.dto;
 
+import com.wordnik.swagger.annotations.ApiModel;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author jkuittin
  */
+@ApiModel
+@XmlRootElement
 public class CompanyDTO {
 
 	private Long id;

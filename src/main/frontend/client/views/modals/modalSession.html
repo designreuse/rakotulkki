@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <fieldset>
                         <div class="row">
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-6">
                                 <label class="control-label" for="customer">Asiakas</label>
 
                                 <div>
@@ -23,14 +23,14 @@
                         <!--ng-options="customer.id as customer.firstName + ' ' + customer.lastName for customer in customers"-->
 
                         <div class="row">
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-3">
                                 <label class="control-label" for="startDate">Alkaen pvm</label>
                                 <input class="form-control" id="startDate" ng-model="session.sessionDate"
                                        placeholder="Alkaen" data-time-type="text"
                                        data-date-format="dd.MM.yyyy"
                                        bs-datepicker type="text">
                             </div>
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-3">
                                 <label class="control-label" for="untilDate">Päättyen pvm</label>
                                 <input class="form-control" id="untilDate" ng-model="untilDate"
                                        data-min-date="{{sessionDate}}"
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-sm-6"
+                            <div class="form-group col-sm-3"
                                  ng-class="{'has-error': sessionForm.startTime.$invalid }">
                                 <label class="control-label" for="startTime">Alkamisaika</label>
                                 <input class="form-control" id="startTime" ng-model="session.startTime"
@@ -49,7 +49,7 @@
                                        data-time-type="date" data-autoclose="1" name="startime"
                                        bs-timepicker type="text">
                             </div>
-                            <div class="form-group col-sm-6"
+                            <div class="form-group col-sm-3"
                                  ng-class="{'has-error': sessionForm.endTime.$invalid }">
                                 <label class="control-label" for="endTime">Päättymisaika</label>
                                 <input class="form-control" id="endTime" ng-model="session.endTime"

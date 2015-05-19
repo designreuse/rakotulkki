@@ -1,0 +1,25 @@
+package org.rakotulkki;
+
+import org.rakotulkki.resource.user.CustomerController;
+import org.rakotulkki.resource.user.InvoiceController;
+import org.rakotulkki.resource.user.SessionsController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+/**
+ * @author jkuittin
+ */
+@Configuration
+@EnableSwagger2
+@ComponentScan(basePackageClasses = { CustomerController.class, InvoiceController.class, SessionsController.class })
+public class SwaggerConfiguration {
+
+	@Bean
+	public Docket petApi() {
+		return new Docket(DocumentationType.SWAGGER_2).select().build();
+	}
+}

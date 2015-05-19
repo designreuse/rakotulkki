@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author jkuittin
  */
-public class TherapistDTO implements UserDetails {
+public class AuthenticatedUser implements UserDetails {
 
 	private static final List<GrantedAuthority> defaultAuthorities = new ArrayList<>();
 

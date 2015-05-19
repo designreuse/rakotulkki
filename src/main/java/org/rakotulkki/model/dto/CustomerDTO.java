@@ -1,10 +1,15 @@
 package org.rakotulkki.model.dto;
 
+import com.wordnik.swagger.annotations.ApiModel;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 /**
  * @author jkuittin
  */
+@ApiModel(description = "Model fo customer")
+@XmlRootElement
 public class CustomerDTO {
 
 	private Long id;

@@ -1,7 +1,7 @@
 package org.rakotulkki.services;
 
 import ma.glasnost.orika.MapperFacade;
-import org.rakotulkki.model.dto.TherapistDTO;
+import org.rakotulkki.model.dto.AuthenticatedUser;
 import org.rakotulkki.repository.TherapistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +27,7 @@ public class TherapistUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
-		TherapistDTO user = mapper.map(therapistRepository.findByEmail(s), TherapistDTO.class);
+		AuthenticatedUser user = mapper.map(therapistRepository.findByEmail(s), AuthenticatedUser.class);
 		return user;
 	}
 }

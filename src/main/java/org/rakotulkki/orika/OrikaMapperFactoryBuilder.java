@@ -142,7 +142,7 @@ public class OrikaMapperFactoryBuilder {
 		);
 
 		factory.registerClassMap(
-			factory.classMap(Therapist.class, TherapistDTO.class)
+			factory.classMap(Therapist.class, AuthenticatedUser.class)
 				.byDefault()
 				.mapNulls(true)
 				.toClassMap()

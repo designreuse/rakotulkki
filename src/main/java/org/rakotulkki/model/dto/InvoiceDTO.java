@@ -1,9 +1,11 @@
 package org.rakotulkki.model.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.wordnik.swagger.annotations.ApiModel;
 import org.rakotulkki.model.InvoiceStatus;
 import org.rakotulkki.model.jackson.DateSerializer;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
 /**
  * @author jkuittin
  */
+@ApiModel(description = "Model for invoice")
+@XmlRootElement
 public class InvoiceDTO {
 
 	private Long id;
