@@ -45,6 +45,12 @@ gulp.task('build', ['views', 'styles', 'fonts', 'browserify', 'copy-bower-compon
         .pipe(clean());
 });
 
+gulp.task('synch', ['views', 'styles', 'browserify'], function () {
+    // Clean up the temporary javascript after uglify
+    return gulp.src('tmp', {read: false})
+        .pipe(clean());
+});
+
 // Uglify
 gulp.task('compress', function () {
     gulp.src('tmp/core.js')

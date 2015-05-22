@@ -1,0 +1,20 @@
+<div ng-class="form-group">
+    <label class="control-label" for="{{propertyName}}">{{label}}</label>
+
+    <div class="input-group" ng-class="{ 'has-error' : ctrl.errors.length > 0  }">
+        <input type="text" id="{{propertyName}}" class="form-control" datepicker-popup="dd.MM.yyyy"
+               ng-model="ngModel"
+               starting-day="1"
+               placeholder="{{label}}"
+               is-open="opened"
+               ng-click="open($event)"
+               ng-required="true"
+               ng-disabled="disabled"
+               close-text="Sulje">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-disabled="disabled"
+                        ng-click="open($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+    </div>
+</div>

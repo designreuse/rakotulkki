@@ -1,7 +1,7 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.directive('validatedInput', exports.directive);
+    app.directive('validatedDatePicker', exports.directive);
     return exports.directive;
 };
 
@@ -12,7 +12,7 @@ exports.inject = function (app) {
 exports.directive = function () {
     return {
         restrict: 'E',
-        templateUrl: "/views/partials/validatedinput.html",
+        templateUrl: "/views/partials/validatedDatePicker.html",
         require: ['^form', 'ngModel'],
         replace: 'true',
         scope: {
@@ -29,12 +29,26 @@ exports.directive = function () {
             // ctrl[0] is the parent form
             scope.ctrl = ctrl[0][scope.propertyName];
 
+            /**
+             * Open popup date picker
+             * @param $event
+             */
+            scope.open = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                scope.opened = true;
+                ctrl[1].$setValidity('server', true);
+                scope.ctrl.errors = undefined;
+            };
+
             // Clear validation messages when user modifies the model
             element.on('change keyup', function () {
                 scope.$apply(function () {
                     ctrl[1].$setValidity('server', true);
+                    scope.ctrl.errors = undefined;
                 });
             });
         }
     };
 };
+

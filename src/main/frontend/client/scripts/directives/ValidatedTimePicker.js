@@ -1,10 +1,9 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.directive('validatedInput', exports.directive);
+    app.directive('validatedTimePicker', exports.directive);
     return exports.directive;
 };
-
 
 /**
  * Custom directive for validated text inputs.
@@ -12,7 +11,7 @@ exports.inject = function (app) {
 exports.directive = function () {
     return {
         restrict: 'E',
-        templateUrl: "/views/partials/validatedinput.html",
+        templateUrl: "/views/partials/validatedTimePicker.html",
         require: ['^form', 'ngModel'],
         replace: 'true',
         scope: {
@@ -33,8 +32,10 @@ exports.directive = function () {
             element.on('change keyup', function () {
                 scope.$apply(function () {
                     ctrl[1].$setValidity('server', true);
+                    scope.ctrl.errors = undefined;
                 });
             });
         }
     };
 };
+

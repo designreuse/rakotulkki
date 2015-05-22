@@ -1,7 +1,7 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.directive('validatedInput', exports.directive);
+    app.directive('validatedCheckbox', exports.directive);
     return exports.directive;
 };
 
@@ -12,10 +12,12 @@ exports.inject = function (app) {
 exports.directive = function () {
     return {
         restrict: 'E',
-        templateUrl: "/views/partials/validatedinput.html",
+        templateUrl: "/views/partials/validatedCheckbox.html",
         require: ['^form', 'ngModel'],
         replace: 'true',
         scope: {
+            // Header shown for the input
+            header: '@',
             // Label shown for the input
             label: '@',
             // Property name. Used for registering the input and validation data in the form controller.

@@ -10,6 +10,22 @@ exports.controller = function ($scope, $compile, $modal, uiCalendarConfig, Sessi
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
+
+    var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+        console.log("ModalInstanceCtrl: ", $modalInstance);
+
+        $scope.items = items;
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.items);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+    };
+
     /* event source that pulls from google.com */
     $scope.eventSource = {};
     //url: "https://www.google.com/calendar/feeds/fi-fi.finnish%23holiday%40group.v.calendar.google.com/public/basic"
@@ -111,18 +127,31 @@ exports.controller = function ($scope, $compile, $modal, uiCalendarConfig, Sessi
 
     $scope.dayClicked = function (date, jsEvent, view) {
 
-        console.log('Clicked on: ' + date.format());
+        console.log('Really Clicked on: ' + date.format());
 
-        // Pre-fetch an external template populated with a custom scope
-        var myOtherModal = $modal({
+        var modalInstance = $modal.open({
+            controller: ModalInstanceCtrl,
             scope: $scope,
-            content: 'Jehnaa',
-            title: 'Luo sessio',
-            template: 'views/modals/modalSession.html',
-            show: true
+            size: 'lg',
+            resolve: {
+                items: function () {
+                    return ['b'];
+                }
+            },
+            templateUrl: 'views/editsession.html'
         });
-        //myOtherModal.$promise.then(myOtherModal.show);
 
+        modalInstance.result.then(function (data) { //make sure you are declaring your promise
+            console.log("Result: ", data);
+        });
+
+        modalInstance.opened.then(function (data) { //make sure you are declaring your promise
+            console.log("Opened: ", data);
+        });
+
+        modalInstance.rendered.then(function (data) { //make sure you are declaring your promise
+            console.log("Rendered: ", data);
+        });
     };
 
     /* remove event */

@@ -1,0 +1,19 @@
+<div ng-class="form-group">
+    <label class="control-label">{{header}}</label>
+
+    <div ng-class="{ 'has-error' : ctrl.errors.length > 0  }">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       name="{{propertyName}}"
+                       id="{{propertyName}}"
+                       ng-model="ngModel"
+                       ng-disabled="disabled"> {{label}}
+            </label>
+
+            <div ng-show="ctrl.$dirty || ctrl.$invalid">
+                <span ng-show="ctrl.$error.server">{{ctrl.errors | joinBy:','}}</span>
+            </div>
+        </div>
+    </div>
+</div>
