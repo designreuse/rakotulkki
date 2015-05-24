@@ -1,12 +1,12 @@
 <div ng-class="form-group">
-    <label class="control-label" for="{{propertyName}}">{{label}}</label>
+    <label class="control-label" for="{{propertyName}}">{{label | translate}}</label>
 
     <div ng-class="{ 'has-error' : ctrl.errors.length > 0  }">
         <input type="text"
                id="{{propertyName}}"
                class="form-control"
                name="{{propertyName}}"
-               placeholder="{{label}}"
+               placeholder="{{label | translate}}"
                ng-model="ngModel"
                required=""
                ng-disabled="disabled"/>

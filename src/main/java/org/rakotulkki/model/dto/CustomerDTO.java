@@ -2,6 +2,7 @@ package org.rakotulkki.model.dto;
 
 import com.wordnik.swagger.annotations.ApiModel;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
@@ -14,19 +15,29 @@ public class CustomerDTO {
 
 	private Long id;
 
+	@NotNull
 	private String firstName;
 
+	@NotNull
 	private String lastName;
 
+	@NotNull
 	private String street;
 
+	@NotNull
 	private String city;
 
+	@NotNull
 	private String zip;
+
+	@NotNull
+	private String ssn;
 
 	private Integer uninvoicedSessions;
 
 	private BigDecimal price;
+
+	private BigDecimal compensationAmount;
 
 	public Long getId() {
 		return id;
@@ -90,5 +101,21 @@ public class CustomerDTO {
 
 	public void setUninvoicedSessions(final Integer uninvoicedSessions) {
 		this.uninvoicedSessions = uninvoicedSessions;
+	}
+
+	public String getSsn() {
+		return ssn;
+	}
+
+	public void setSsn(final String ssn) {
+		this.ssn = ssn;
+	}
+
+	public BigDecimal getCompensationAmount() {
+		return compensationAmount;
+	}
+
+	public void setCompensationAmount(final BigDecimal compensationAmount) {
+		this.compensationAmount = compensationAmount;
 	}
 }

@@ -3,7 +3,8 @@ package org.rakotulkki.model.hibernate;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.rakotulkki.model.InvoiceStatus;
+import org.rakotulkki.model.enums.InvoiceStatus;
+import org.rakotulkki.model.enums.InvoiceType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -59,6 +60,10 @@ public class Invoice {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private InvoiceStatus status;
+
+	@Column(name = "invoice_type")
+	@Enumerated(EnumType.STRING)
+	private InvoiceType invoiceType;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice")
 	private List<InvoiceRow> rows;
@@ -181,6 +186,14 @@ public class Invoice {
 
 	public void setStatus(final InvoiceStatus status) {
 		this.status = status;
+	}
+
+	public InvoiceType getInvoiceType() {
+		return invoiceType;
+	}
+
+	public void setInvoiceType(final InvoiceType invoiceType) {
+		this.invoiceType = invoiceType;
 	}
 
 	public List<InvoiceRow> getRows() {

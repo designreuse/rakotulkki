@@ -1,7 +1,7 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.controller('CustomerController', exports.controller);
+    app.controller('CustomerInvoiceGenerationController', exports.controller);
     return exports.controller;
 };
 

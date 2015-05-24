@@ -1,4 +1,4 @@
-package org.rakotulkki.model;
+package org.rakotulkki.model.enums;
 
 /**
  * @author jkuittin

@@ -2,49 +2,28 @@
       ng-controller="SessionsController">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Lisää käynti</h3>
+            <h3 class="panel-title">{{'view.session.create.header' | translate}}</h3>
         </div>
         <div class="panel-body">
             <fieldset>
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label class="control-label" for="customer">Asiakas</label>
-
-                            <input class="form-control" id="customer" ng-model="selectedCustomer"
-                                   typeahead="customer as customer.firstName + ' ' + customer.lastName for customer in customers"
-                                   placeholder="Valitse asiakas" type="text">
-                        </div>
-                    </div>
+                    <validated-customer-search
+                            class="col-lg-12"
+                            header="ctrl.customerSelect.header"
+                            label="ctrl.customerSelect.label"
+                            items="customers"
+                            ng-model="selectedCustomer"
+                            select="customer as customer.firstName + ' ' + customer.lastName for customer in items"></validated-customer-search>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-12">
-                        <label>Käyttäjän tiedot</label>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <label class="col-lg-2">Nimi</label>
-
-                        <div class="col-lg-6">
-                            <span>{{selectedCustomer.firstName}} {{selectedCustomer.lastName}}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="col-lg-2">Osoite</label>
-
-                        <div class="col-lg-6">
-                            <span>{{selectedCustomer.street}}</span><br>
-                            <span>{{selectedCustomer.zip}} {{selectedCustomer.city}}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <validated-checkbox class="col-lg-12" header="Toistuvuus" label="sessio on toistuva"
+                    <validated-checkbox class="col-lg-4" header="Toistuvuus" label="käynti on toistuva"
                                         property-name="repeating"
                                         ng-model="repeating">
                     </validated-checkbox>
+                    <validated-radio-group class="col-lg-6" items="session.sessionTypes"
+                                           ng-model="session.sessionType"
+                                           header="Käynnin tyyppi"></validated-radio-group>
                 </div>
                 <div class="row">
                     <validated-date-picker class="col-lg-4" label="Alkaen pvm" property-name="sessionDate"
@@ -66,8 +45,8 @@
                                      ng-model="session.price"></validated-input>
                     <validated-checkbox class="col-lg-6" header="Kela-tuki"
                                         label="veloita Kela-korvaus tälle sessiolle"
-                                        property-name="reimbursed"
-                                        ng-model="reimbursed">
+                                        property-name="compensated"
+                                        ng-model="compensated">
                     </validated-checkbox>
                 </div>
 
@@ -78,9 +57,9 @@
     <div class="panel-footer">
         <div class="form-group">
             <div class="col-lg-12">
-                <button type="submit" class="btn btn-primary">Tallenna</button>
+                <button ng-click="cancel()" class="btn btn-warning">Peruuta</button>
+                <button type="submit" ng-click="ok()" class="btn btn-primary">Tallenna</button>
             </div>
         </div>
-    </div>
     </div>
 </form>

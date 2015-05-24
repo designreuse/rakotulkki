@@ -1,0 +1,15 @@
+<div ng-class="form-group">
+    <label class="control-label" for="{{propertyName}}">{{header | translate}}</label>
+
+    <div ng-class="{ 'has-error' : ctrl.errors.length > 0  }">
+
+        <input class="form-control" id="{{propertyName}}" ng-model="ngModel"
+               typeahead="{{select}}"
+               items="items"
+               placeholder="{{label | translate}}" type="text">
+
+        <div ng-show="ctrl.$dirty || ctrl.$invalid">
+            <span ng-show="ctrl.$error.server">{{ctrl.errors | joinBy:','}}</span>
+        </div>
+    </div>
+</div>

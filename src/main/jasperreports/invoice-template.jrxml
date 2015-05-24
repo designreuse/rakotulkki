@@ -45,7 +45,7 @@
 	<field name="rows" class="java.util.List">
 		<fieldDescription><![CDATA[rows]]></fieldDescription>
 	</field>
-	<field name="status" class="org.rakotulkki.model.InvoiceStatus">
+	<field name="status" class="org.rakotulkki.model.enums.InvoiceStatus">
 		<fieldDescription><![CDATA[status]]></fieldDescription>
 	</field>
 	<field name="sumVat" class="java.math.BigDecimal">

@@ -33,7 +33,11 @@ exports.controller = function ($scope, $location, CustomerService, SessionsServi
         startingDay: 1
     };
 
-    $scope.session = {};
+    $scope.loadSession = function () {
+        SessionsService.new().success(function (data) {
+            $scope.session = data;
+        })
+    };
 
     $scope.listCustomers = function () {
         CustomerService.list().success(function (data) {
@@ -47,12 +51,43 @@ exports.controller = function ($scope, $location, CustomerService, SessionsServi
         })
     };
 
+    $scope.customerSelected = function () {
+        console.log($scope.selectedCustomer);
+        if ($scope.selectedCustomer != undefined) {
+            $scope.session.customerId = $scope.selectedCustomer.id;
+            $scope.session.price = $scope.selectedCustomer.price;
+        } else {
+            $scope.session.customerId = $scope.selectedCustomer.id;
+            $scope.session.price = $scope.selectedCustomer.price;
+        }
+    }
+
+    $scope.loadSession();
+
     $scope.listCustomers();
+
+    /**
+     * Watch for selected customer.
+     */
+    $scope.$watch(function ($scope) {
+            return $scope.selectedCustomer
+        },
+        function (newValue, oldValue) {
+            $scope.customerSelected();
+        }
+    );
 
     $scope.save = function () {
         console.log($scope.session);
         SessionsService.save($scope.session).success(function (data) {
-            $location.path("/index");
+            if ($modalInstance != undefined) {
+                $modalInstance.close();
+            }
+            if ($scope.returnPath != undefined) {
+                $location.path($scope.returnPath)
+            } else {
+                $location.path("/index");
+            }
         });
     };
 };

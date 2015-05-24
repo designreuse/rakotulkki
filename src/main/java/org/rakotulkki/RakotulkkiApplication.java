@@ -6,6 +6,7 @@ import org.rakotulkki.orika.OrikaMapperFactoryBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,11 @@ public class RakotulkkiApplication {
 	@Bean
 	MapperFacade mapperFacadeProvider() {
 		return factory.getMapperFacade();
+	}
+
+	@Bean
+	public javax.validation.Validator localValidatorFactoryBean() {
+		return new LocalValidatorFactoryBean();
 	}
 
 	@RequestMapping("/user")

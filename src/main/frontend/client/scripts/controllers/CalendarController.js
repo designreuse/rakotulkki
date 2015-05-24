@@ -1,7 +1,7 @@
 'use strict';
 
 exports.inject = function (app) {
-    app.controller('CalendarCtrl', exports.controller);
+    app.controller('CalendarController', exports.controller);
     return exports.controller;
 };
 
@@ -11,13 +11,11 @@ exports.controller = function ($scope, $compile, $modal, uiCalendarConfig, Sessi
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+    var ModalInstanceCtrl = function ($scope, $modalInstance) {
         console.log("ModalInstanceCtrl: ", $modalInstance);
 
-        $scope.items = items;
-
         $scope.ok = function () {
-            $modalInstance.close($scope.items);
+            $modalInstance.close();
         };
 
         $scope.cancel = function () {
@@ -131,7 +129,6 @@ exports.controller = function ($scope, $compile, $modal, uiCalendarConfig, Sessi
 
         var modalInstance = $modal.open({
             controller: ModalInstanceCtrl,
-            scope: $scope,
             size: 'lg',
             resolve: {
                 items: function () {
@@ -139,18 +136,6 @@ exports.controller = function ($scope, $compile, $modal, uiCalendarConfig, Sessi
                 }
             },
             templateUrl: 'views/editsession.html'
-        });
-
-        modalInstance.result.then(function (data) { //make sure you are declaring your promise
-            console.log("Result: ", data);
-        });
-
-        modalInstance.opened.then(function (data) { //make sure you are declaring your promise
-            console.log("Opened: ", data);
-        });
-
-        modalInstance.rendered.then(function (data) { //make sure you are declaring your promise
-            console.log("Rendered: ", data);
         });
     };
 

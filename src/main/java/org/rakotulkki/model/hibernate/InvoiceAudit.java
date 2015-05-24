@@ -2,7 +2,7 @@ package org.rakotulkki.model.hibernate;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.rakotulkki.model.InvoiceStatus;
+import org.rakotulkki.model.enums.InvoiceStatus;
 
 import javax.persistence.*;
 

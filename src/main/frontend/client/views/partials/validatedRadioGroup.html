@@ -2,14 +2,11 @@
     <label class="control-label">{{header | translate}}</label>
 
     <div ng-class="{ 'has-error' : ctrl.errors.length > 0  }">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"
-                       name="{{propertyName}}"
-                       id="{{propertyName}}"
-                       ng-model="ngModel"
-                       ng-disabled="disabled"> {{label | translate}}
-            </label>
+        <div class="btn-group">
+            <label ng-repeat="s in items"
+                   class="btn btn-primary"
+                   ng-model="ngModel"
+                   btn-radio="'{{s}}'">{{ s | translate}}</label>
 
             <div ng-show="ctrl.$dirty || ctrl.$invalid">
                 <span ng-show="ctrl.$error.server">{{ctrl.errors | joinBy:','}}</span>

@@ -7,6 +7,9 @@ exports.inject = function (app) {
 
 exports.service = function ($http) {
     return {
+        new: function () {
+            return $http.get('/sessions/new');
+        },
         load: function (id) {
             return $http.get('/sessions/' + id);
         },

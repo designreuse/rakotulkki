@@ -7,9 +7,10 @@ import com.itextpdf.text.pdf.PdfStamper;
 import ma.glasnost.orika.MapperFacade;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.rakotulkki.model.InvoiceStatus;
 import org.rakotulkki.model.dto.CompanyDTO;
 import org.rakotulkki.model.dto.InvoiceDTO;
+import org.rakotulkki.model.enums.InvoiceStatus;
+import org.rakotulkki.model.enums.InvoiceType;
 import org.rakotulkki.model.hibernate.*;
 import org.rakotulkki.repository.*;
 import org.rakotulkki.services.TherapistService;
@@ -73,7 +74,7 @@ public class InvoiceController {
 
 		for (Customer customer : grouped.keySet()) {
 			// Create invoice
-			Invoice invoice = createInvoice(customer, therapist);
+			Invoice invoice = createInvoice(customer, therapist, InvoiceType.NORMAL);
 
 			for (Session session : grouped.get(customer)) {
 				// Add session as a row to invoice
@@ -97,7 +98,7 @@ public class InvoiceController {
 			.findByTherapistAndInvoiceRowIsNullAndSessionDateBeforeAndCustomer(therapist, LocalDate.now().plusDays(1),
 				customer);
 
-		Invoice invoice = createInvoice(customer, therapist);
+		Invoice invoice = createInvoice(customer, therapist, InvoiceType.NORMAL);
 
 		for (Session session : sessions) {
 			// Add session as a row to invoice
@@ -195,8 +196,9 @@ public class InvoiceController {
 		invoiceRowRepository.save(row);
 	}
 
-	private Invoice createInvoice(final Customer customer, final Therapist therapist) {
+	private Invoice createInvoice(final Customer customer, final Therapist therapist, final InvoiceType invoiceType) {
 		Invoice invoice = new Invoice();
+		invoice.setInvoiceType(invoiceType);
 		invoice.setCustomer(customer);
 		invoice.setName(customer.getFirstName() + " " + customer.getLastName());
 		invoice.setAddress(customer.getStreet());

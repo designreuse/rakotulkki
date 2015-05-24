@@ -15,23 +15,29 @@ public class Customer {
 	@Column(columnDefinition = "int")
 	private Long id;
 
-	@Column
+	@Column(nullable = false)
 	private String firstName;
 
-	@Column
+	@Column(nullable = false)
 	private String lastName;
 
-	@Column
+	@Column(nullable = false)
 	private String street;
 
-	@Column
+	@Column(nullable = false)
+	private String ssn;
+
+	@Column(nullable = false)
 	private String city;
 
-	@Column
+	@Column(nullable = false)
 	private String zip;
 
-	@Column
+	@Column(nullable = false)
 	private BigDecimal price;
+
+	@Column(name = "compensation_amount", nullable = true)
+	private BigDecimal compensationAmount;
 
 	@ManyToOne
 	@JoinColumn(name = "therapist_id", columnDefinition = "int")
@@ -99,5 +105,21 @@ public class Customer {
 
 	public void setPrice(final BigDecimal price) {
 		this.price = price;
+	}
+
+	public String getSsn() {
+		return ssn;
+	}
+
+	public void setSsn(final String ssn) {
+		this.ssn = ssn;
+	}
+
+	public BigDecimal getCompensationAmount() {
+		return compensationAmount;
+	}
+
+	public void setCompensationAmount(final BigDecimal compensationAmount) {
+		this.compensationAmount = compensationAmount;
 	}
 }

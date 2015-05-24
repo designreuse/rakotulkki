@@ -3,15 +3,16 @@
 require('angular');
 require('angular-ui-router');
 require('angular-bootstrap-npm')
-//require('bootstrap');
 require('angular-animate');
+require('angular-translate');
 
 var app = angular.module('RakotulkkiApp',
     [
         'ui.router',
         'ui.calendar',
         'ui.bootstrap',
-        'ngAnimate'
+        'ngAnimate',
+        'pascalprecht.translate'
     ]
 );
 
@@ -23,6 +24,8 @@ require('./directives/ValidatedInput').inject(app);
 require('./directives/ValidatedCheckbox').inject(app);
 require('./directives/ValidatedDatePicker').inject(app);
 require('./directives/ValidatedTimePicker').inject(app);
+require('./directives/ValidatedRadioGroup').inject(app);
+require('./directives/ValidatedCustomerSearch').inject(app);
 
 // services
 require('./services/CustomerService').inject(app);
@@ -36,7 +39,7 @@ require('./controllers/HomeController').inject(app);
 require('./controllers/CustomerController').inject(app);
 require('./controllers/CustomerInvoiceGenerationController').inject(app);
 require('./controllers/SessionsController').inject(app);
-require('./controllers/CalendarCtrl').inject(app);
+require('./controllers/CalendarController').inject(app);
 
 app.config(function ($locationProvider, $stateProvider, $httpProvider, $urlRouterProvider) {
 
@@ -70,11 +73,37 @@ app.config(function ($locationProvider, $stateProvider, $httpProvider, $urlRoute
         .state('calendar', {
             url: '/calendar',
             templateUrl: 'views/calendar.html',
-            controller: 'CalendarCtrl'
+            controller: 'CalendarController'
         });
 
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 });
+
+app.config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.translations('fi', {
+        // Session types
+        'EXPLORATORY': 'Tutustumiskäynti',
+        'THERAPY': 'Terapiakäynti',
+        // Edit session -template
+        'view.session.create.header': 'Lisää uusi käynti',
+        'view.session.edit.header': 'Muokkaa käyntiä',
+        'ctrl.customerSelect.header': 'Valitse asiakas',
+        'ctrl.customerSelect.label': 'Hae asiakas nimellä',
+        'customer': 'Asiakas',
+        'view.session.repeated.header': 'Toistuvuus',
+        'view.session.repeated.label': 'käynti on toistuva',
+        'view.session.type.header': 'Käynnin tyyppi',
+        'view.session.date.label': 'Alkaen pvm',
+        'view.session.dateUntil.label': 'Päättyen pvm',
+        'view.session.startTime.label': 'Alkamisaika klo',
+        'view.session.endTime.label': 'Päättymisaika klo',
+        'view.session.price.label': 'Hinta',
+        'view.session.compensation.header': 'Kela-tuki',
+        'view.session.compensation.label': 'veloita Kela-korvaus tälle käynnille',
+    });
+
+    $translateProvider.preferredLanguage('fi');
+}]);
 
 /**
  * Custom filter for joining string arrays with a delimiter.

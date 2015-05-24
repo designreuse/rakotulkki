@@ -11,6 +11,7 @@ import org.rakotulkki.services.TherapistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,6 +36,11 @@ public class SessionsController {
 		this.mapper = mapper;
 	}
 
+	@RequestMapping(value = "new", method = RequestMethod.GET)
+	public SessionDTO newDto() {
+		return new SessionDTO();
+	}
+
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET)
 	public List<SessionDTO> sessions() {
@@ -42,7 +48,7 @@ public class SessionsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public SessionDTO create(@RequestBody SessionDTO sessionDTO) {
+	public SessionDTO create(@Valid @RequestBody SessionDTO sessionDTO) {
 		Therapist therapist = therapistService.getCurrentUser();
 
 		Session session = mapper.map(sessionDTO, Session.class);

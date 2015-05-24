@@ -2,7 +2,8 @@ package org.rakotulkki.model.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.wordnik.swagger.annotations.ApiModel;
-import org.rakotulkki.model.InvoiceStatus;
+import org.rakotulkki.model.enums.InvoiceStatus;
+import org.rakotulkki.model.enums.InvoiceType;
 import org.rakotulkki.model.jackson.DateSerializer;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,6 +45,8 @@ public class InvoiceDTO {
 	private String extraText;
 
 	private InvoiceStatus status;
+
+	private InvoiceType invoiceType;
 
 	private BigDecimal sumVatIncluded;
 
@@ -201,5 +204,13 @@ public class InvoiceDTO {
 
 	public String getZipAndCity() {
 		return this.zip + " " + this.city;
+	}
+
+	public InvoiceType getInvoiceType() {
+		return invoiceType;
+	}
+
+	public void setInvoiceType(final InvoiceType invoiceType) {
+		this.invoiceType = invoiceType;
 	}
 }
